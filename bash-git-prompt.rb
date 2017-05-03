@@ -1,14 +1,16 @@
-require "formula"
-
 class BashGitPrompt < Formula
+  desc "Informative, fancy bash prompt for Git users"
   homepage "https://github.com/magicmonty/bash-git-prompt"
-  url "https://github.com/magicmonty/bash-git-prompt/archive/2.3.1.tar.gz"
-  sha1 "c973bd8b86ac332d7310d79f0009844340b5999f"
+  url "https://github.com/magicmonty/bash-git-prompt/archive/2.6.1.tar.gz"
+  sha256 "d2e58eaaae521cbcf3758a38cbc9233ea2e24a47dd907e64cdb514f30bd7b9ed"
   head "https://github.com/magicmonty/bash-git-prompt.git"
+
+  bottle :unneeded
 
   def install
     share.install "gitprompt.sh", "gitprompt.fish", "git-prompt-help.sh",
-                  "gitstatus.sh", "prompt-colors.sh"
+                  "gitstatus.py", "gitstatus.sh", "gitstatus_pre-1.7.10.sh",
+                  "prompt-colors.sh"
 
     (share/"themes").install Dir["themes/*.bgptheme"], "themes/Custom.bgptemplate"
     doc.install "README.md"
@@ -16,9 +18,9 @@ class BashGitPrompt < Formula
 
   def caveats; <<-EOS.undent
     You should add the following to your .bashrc (or equivalent):
-      if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+      if [ -f #{HOMEBREW_PREFIX}/share/gitprompt.sh ]; then
         GIT_PROMPT_THEME=Default
-        source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+        . #{HOMEBREW_PREFIX}/share/gitprompt.sh
       fi
     EOS
   end
